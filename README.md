@@ -24,34 +24,41 @@ Status: **In Development**
 - FontAwesome 4.4.0
 
 ## Development Stages
-1/ Prototype
-	+ Template & Rendering (Table & Form)
-	+ Library init
-	+ Structure project
-2/ Configuration
-	+ SearchGroup & SearchRelation
-	+ Search3 default config
-3/ Search 3 Library
-	+ SearchBuilder
-		+ SearchJoin
-		+ SearchSelect
-		+ SearchCondition
-	+ Event Hooks
-	+ APIs???
-	+ Helpers???
-4/ Search 3 Configuration (Drag & Drop). Based on JQuery & JQuery UI.
-	+ Search Form
-	+ Table Result
-5/ Search 3 Front-end
-	+ Search3Builder (depend on the configuration)
-		+ Hooks
-		+ Default config
-6/ Test cases:
-	+ Simple table
-	+ Table & 1 join
-	+ Table & 2 join
-	+ Table & 3 join with 1 complex join
-	+ Complex Conditions while searching
-	+ Use hook to manipulate the search query builder (SERVER).
-	+ Use hook to manipulate the search result builder (SERVER).
-	+ Test hook in Front-End
+1. Prototype
+	- Template & Rendering (Table & Form)
+	- Library init
+	- Structure project
+2. Configuration
+	- SearchGroup & SearchRelation
+	- Search3 default config
+3. Search 3 Library
+	- SearchBuilder
+		- SearchJoin
+		- SearchSelect
+		- SearchCondition
+	- Event Hooks
+	- APIs???
+	- Helpers???
+4. Search 3 Configuration (Drag & Drop). Based on JQuery & JQuery UI.
+	- Search Form
+	- Table Result
+5. Search 3 Front-end
+	- Search3Builder (depend on the configuration)
+		- Hooks
+		- Default config
+6. Test cases:
+	- Simple table
+	- Table & 1 join
+	- Table & 2 join
+	- Table & 3 join with 1 complex join
+	- Complex Conditions while searching
+	- Use hook to manipulate the search query builder (SERVER).
+	- Use hook to manipulate the search result builder (SERVER).
+	- Test hook in Front-End
+	
+## Supporting the project
+If you really like this project & want to contribute a little for the development. You can buy me a coffee. Thank you very much for your supporting ♥.
+
+<a href="https://www.buymeacoffee.com/xKOM9NB8p" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png" alt="Buy Me A Coffee" style="height: auto !important;width: auto !important;" ></a>
+
+Copyright &copy; 2018 by [Seth Phat](http://sethphat.com) aka Phat Tran Minh!
