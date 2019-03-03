@@ -1,0 +1,39 @@
+{
+    "name": "sethsandaru/laravel-search3",
+    "type": "project",
+    "description": "Laravel Search3 - Search Builder",
+    "keywords": [
+        "laravel",
+        "build search table",
+		"search form",
+        "search builder dynamic",
+        "drag & drop"
+    ],
+    "license": "MIT",
+    "require": {
+        "php": "^7.1.3",
+        "laravel/framework": "5.8.*"
+    },
+    "extra": {
+        "laravel": {
+             "providers": [
+				"SethPhat\\Search3\\ServiceProvider"
+			],
+			"aliases": {
+                "Search3": "SethPhat\\Search3\\Library\\Search3Helper"
+            }
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "SethPhat\\Search3\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "SethPhat\\Search3\\Test\\": "tests/"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
