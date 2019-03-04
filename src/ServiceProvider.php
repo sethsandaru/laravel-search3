@@ -6,7 +6,8 @@ use Illuminate\Support\ServiceProvider as LaravelServiceProvider;
 class ServiceProvider extends LaravelServiceProvider {
     const NAMESPACE = "search3";
     const CONFIG_FILE = [
-        'search3' => __DIR__ . '/Config/search3.php'
+        'search3' => __DIR__ . '/Config/search3.php',
+        'search3_hook' => __DIR__ . '/Config/hook.php',
     ];
 
     public function register()

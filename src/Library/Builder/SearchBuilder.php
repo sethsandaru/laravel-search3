@@ -9,15 +9,17 @@
 namespace SethPhat\Search3\Library\Builder;
 
 
+use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Facades\DB;
 use SethPhat\Search3\Library\Exception\BuilderException;
+use SethPhat\Search3\Library\Hooks\BaseHook;
 use SethPhat\Search3\Model\Eloquents\SearchGroup;
 use SethPhat\Search3\Model\Repositories\SearchGroupRepository;
 
 class SearchBuilder
 {
     /**
-     * @var DB $builder
+     * @var Builder $builder
      */
     protected $builder;
 
@@ -31,9 +33,19 @@ class SearchBuilder
      */
     protected $main_group;
 
+    /**
+     * @var SearchGroupRepository $search_group_repo
+     */
+    protected $search_group_repo;
+
+    /**
+     * @var BaseHook $hook_obj
+     */
+    protected $hook_obj;
+
     public function __construct($main_group) {
-        $group_repo = new SearchGroupRepository();
-        $this->main_group = $group_repo->getByName($main_group);
+        $this->search_group_repo = new SearchGroupRepository();
+        $this->main_group = $this->search_group_repo->getByName($main_group);
         if (empty($this->main_group)) {
             throw new BuilderException("MAIN GROUP DOESN'T EXISTS");
         }
@@ -42,10 +54,43 @@ class SearchBuilder
         $this->builder = DB::table($this->main_group->table_name);
     }
 
-    public function setSearchData($data) {
+    public function setSearchData(array $data) {
         $this->searchData = $data;
     }
     public function getSearchData() {
         return $this->searchData ?? null;
+    }
+
+    /**
+     * @return BaseHook
+     */
+    public function getHookObj(): BaseHook
+    {
+        return $this->hook_obj;
+    }
+
+    /**
+     * @param BaseHook $hook_obj
+     */
+    public function setHookObj(BaseHook $hook_obj): void
+    {
+        $this->hook_obj = $hook_obj;
+    }
+
+    /**
+     * @throws BuilderException
+     */
+    public function build() {
+        if (!isset($this->searchData)) {
+            throw new BuilderException("SEARCH DATA IS EMPTY");
+        }
+
+        // run hooks
+        $this->hook_obj->beforeBuildQuery($this->searchData);
+
+        // get config data - joins
+        $joiner = new SearchJoiner($this->main_group, $this->builder);
+
+        // get config data - fields
     }
 }

@@ -23,5 +23,12 @@ return [
     'use_middleware' => false, // enable it (true) if you want to use middleware
     'middleware' => 'auth', // can be an array of middlewares (['auth','adminOnly',...']) or a single string. Please don't use Closure, it might get an error when caching...
 
-
+    /*
+     * Max Join Level, for example:
+     * SELECT * FROM x
+     * JOIN y ON x.y = y.y // level 1
+     * JOIN u ON y.u = u.u // level 2
+     * ... and so on
+     */
+    'max_join_level' => 3,
 ];
