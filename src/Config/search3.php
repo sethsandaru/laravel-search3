@@ -31,4 +31,9 @@ return [
      * ... and so on
      */
     'max_join_level' => 3,
+
+    /*
+     * Default Record Limit
+     */
+    'limit_record' => 20,
 ];

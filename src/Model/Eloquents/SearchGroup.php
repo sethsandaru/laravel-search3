@@ -19,6 +19,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property string $table_name
  * @property string $meta_data
  * @property SearchGroupField[] $Fields
+ * @property array MetaDataObject
  */
 class SearchGroup extends Model
 {
@@ -32,5 +33,9 @@ class SearchGroup extends Model
 
     public function Fields() {
         return $this->hasMany(SearchGroupField::class, "group_id");
+    }
+
+    public function getMetaDataObjectAttribute() {
+        return json_decode($this->meta_data, true);
     }
 }

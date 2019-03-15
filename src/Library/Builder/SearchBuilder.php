@@ -92,5 +92,21 @@ class SearchBuilder
         $joiner = new SearchJoiner($this->main_group, $this->builder);
 
         // get config data - fields
+        $fielder = new SearchFielder($this->main_group, $joiner->getTables(), $this->builder);
+
+        // paging
+        $pager = new SearchPaging($this->searchData, $this->builder);
+
+        // ordering
+        $orderer = new SearchOrder($this->searchData, $this->builder);
+
+        // condition
+        $conditioner = new SearchCondition($this->searchData, $this->builder);
+
+        // ready to query
+        $this->hook_obj->afterBuiltQuery($this->builder, $this->searchData);
+
+        // query
+        $sql = $this->builder->toSql();
     }
 }
