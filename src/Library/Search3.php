@@ -41,8 +41,16 @@ class Search3
         $this->builder->setHookObj($this->hook_obj);
     }
 
+    /**
+     * Query for result
+     * @param $postData
+     * @return array
+     * @throws BuilderException
+     */
     public function getResult($postData) {
         $this->builder->setSearchData($postData);
-        $this->builder->build();
+        $result = $this->builder->build();
+
+        return $result;
     }
 }

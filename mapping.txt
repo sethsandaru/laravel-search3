@@ -1,0 +1,11 @@
+1/ Condition
+filter: {
+    key: value
+}
+
+So, value should be:
+JSON Array => WHERE IN
+Single Value:
+    => String => Where Like
+    => Number => Where =
+

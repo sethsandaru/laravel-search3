@@ -56,7 +56,7 @@ class SearchFielder
 
         // final binding
         $select_sql = "";
-        if (!empty($this->main_group->MetaDataObject) && !$this->main_group->MetaDataObject['is_count']) {
+        if (!empty($this->main_group->MetaDataObject) && $this->main_group->MetaDataObject['count_type'] == 1) {
             $select_sql = "SQL_CALC_FOUND_ROWS ";
         }
 

@@ -50,14 +50,14 @@ class SearchJoiner
         foreach($tables as $table) {
             switch ($table['type']) {
                 case RelationConstant::LEFT_JOIN:
-                    $this->builder->leftJoin($table['table']->name, DB::raw($table['table']->condition));
+                    $this->builder->leftJoin($table['table']->table_name, DB::raw($table['table']->condition));
                     break;
                 case RelationConstant::RIGHT_JOIN:
-                    $this->builder->rightJoin($table['table']->name, DB::raw($table['table']->condition));
+                    $this->builder->rightJoin($table['table']->table_name, DB::raw($table['table']->condition));
                     break;
                 case RelationConstant::INNER_JOIN:
                 default:
-                    $this->builder->join($table['table']->name, DB::raw($table['table']->condition));
+                    $this->builder->join($table['table']->table_name, DB::raw($table['table']->condition));
             }
         }
     }

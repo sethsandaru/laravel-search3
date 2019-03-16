@@ -65,4 +65,22 @@ class BaseController extends Controller
     protected function setNavTitle($title = "") {
         $this->data['nav_title'] = $title;
     }
+
+    protected function returnJson($data) {
+        return response()->json($data);
+    }
+
+    protected function returnSuccess($data) {
+        return $this->returnJson([
+            'code' => 200,
+            'message' => $data
+        ]);
+    }
+
+    protected function returnError($data) {
+        return $this->returnJson([
+            'code' => 400,
+            'message' => $data
+        ]);
+    }
 }

@@ -79,13 +79,14 @@ class SearchBuilder
 
     /**
      * @throws BuilderException
+     * @return array
      */
     public function build() {
         if (!isset($this->searchData)) {
             throw new BuilderException("SEARCH DATA IS EMPTY");
         }
 
-        // run hooks
+        // HOOK: Before Run The Query Builder
         $this->hook_obj->beforeBuildQuery($this->searchData);
 
         // get config data - joins
@@ -103,10 +104,22 @@ class SearchBuilder
         // condition
         $conditioner = new SearchCondition($this->searchData, $this->builder);
 
-        // ready to query
+        // HOOK: After Built Query Builder
         $this->hook_obj->afterBuiltQuery($this->builder, $this->searchData);
 
         // query
-        $sql = $this->builder->toSql();
+        $result = $this->builder->get();
+        $total_result = (new SearchCount($this->main_group, $this->builder))->getTotalRows();
+
+        // HOOK: After Query Result
+        $this->hook_obj->afterQueryResult($result);
+
+        // package up data
+        return [
+            "draw" => intval($this->searchData),
+            "recordsTotal" => $total_result,
+            "recordsFiltered" => $total_result,
+            "data" => $result,
+        ];
     }
 }
