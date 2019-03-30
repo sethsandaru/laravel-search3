@@ -42,22 +42,57 @@ class SearchJoiner
         $this->joining();
     }
 
+    /**
+     * The joinning process.
+     * Conditions is a JSON Array, look like this:
+     * [
+     *      {
+     *          first: "Column",
+     *          operator: ">", // > < != = ,...
+     *          second: "Column"
+     *      },
+     *      {
+     *          type: "AND|OR", // only got this for the second one.
+     *          ...
+     *      }
+     * ]
+     */
     private function joining() {
         // retrieve all the join table
         $tables = $this->relation_repo->getJoinTable($this->main_group->id);
         $this->tables = $tables;
 
         foreach($tables as $table) {
+            $table_join = $table['table']->table_name . " AS " . $table['table']->name;
+
+            // prepare the condition
+            $conditionObj = json_decode($table['condition']);
+            if (empty($conditionObj) || !is_array($conditionObj)) {
+                throw new \Exception("COULDN'T PROCESS THE JOIN OF {$table['table']->name} BECAUSE OF EMPTY CONDITION OR WRONG FORMAT");
+            }
+            $join_condition_func = function($query) use ($conditionObj) {
+                foreach ($conditionObj as $conditional) {
+                    if (isset($conditional->type) && $conditional->type == "OR") {
+                        // ON ... OR ...
+                        $query->orOn($conditional->first, $conditional->operator, $conditional->second);
+                    } else {
+                        // ON .. AND ...
+                        $query->on($conditional->first, $conditional->operator, $conditional->second);
+                    }
+                }
+            };
+
+            // start to join
             switch ($table['type']) {
                 case RelationConstant::LEFT_JOIN:
-                    $this->builder->leftJoin($table['table']->table_name, DB::raw($table['table']->condition));
+                    $this->builder->leftJoin($table_join, $join_condition_func);
                     break;
                 case RelationConstant::RIGHT_JOIN:
-                    $this->builder->rightJoin($table['table']->table_name, DB::raw($table['table']->condition));
+                    $this->builder->rightJoin($table_join, $join_condition_func);
                     break;
                 case RelationConstant::INNER_JOIN:
                 default:
-                    $this->builder->join($table['table']->table_name, DB::raw($table['table']->condition));
+                    $this->builder->join($table_join, $join_condition_func);
             }
         }
     }

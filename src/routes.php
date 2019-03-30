@@ -8,12 +8,14 @@
 
 $route_prefix = "search3";
 
+Route::get($route_prefix . "/test", "\SethPhat\Search3\Controller\TestController@index");
+
 Route::get($route_prefix, function() {
     return redirect()->route('searchGroupAddPage');
 });
 
 Route::prefix("$route_prefix/api")->namespace("\SethPhat\Search3\Controller\API")->group(function () {
-    Route::post("/retrieve", "ApiController@lookup");
+    Route::post("/retrieve", "ApiController@lookup")->name('search3LookupAPI');
 });
 
 Route::prefix("$route_prefix/search_group")->namespace("\SethPhat\Search3\Controller\SearchGroup")->group(function () {

@@ -18,9 +18,10 @@ class SearchOrder
             return;
         }
 
-        $order_place = $postData[0]['column'];
-        $order_type = $postData[0]['dir'];
-        $order_column = $postData[$order_place]['data'];
+        $order_place = $postData['order'][0]['column'];
+        $order_type = $postData['order'][0]['dir'];
+        $order_column = $postData['columns'][$order_place]['data'];
+        $column = str_replace(SearchFielder::FIELD_SEPARATE, ".", $order_column);
 
         if ($order_type == "asc") {
             $order_type = "ASC";
@@ -28,6 +29,6 @@ class SearchOrder
             $order_type = "DESC";
         }
 
-        $builder->orderBy($order_column, $order_type);
+        $builder->orderBy($column, $order_type);
     }
 }

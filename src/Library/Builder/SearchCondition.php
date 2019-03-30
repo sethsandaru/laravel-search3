@@ -19,16 +19,18 @@ class SearchCondition
         }
 
         foreach ($postData['filter'] as $key => $value) {
+            $column = str_replace(SearchFielder::FIELD_SEPARATE, ".", $key);
+
             switch ($this->_getType($value)){
                 case 'array':
-                    $builder->whereIn($key, json_decode($value, true));
+                    $builder->whereIn($column, json_decode($value, true));
                     break;
                 case 'string':
-                    $builder->where($key, 'LIKE', $value);
+                    $builder->where($column, 'LIKE', $value);
                     break;
                 case 'number':
                 default:
-                    $builder->where($key, $value);
+                    $builder->where($column, $value);
                     break;
             }
         }

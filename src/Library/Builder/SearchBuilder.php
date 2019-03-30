@@ -51,7 +51,7 @@ class SearchBuilder
         }
 
         // ok build query builder
-        $this->builder = DB::table($this->main_group->table_name);
+        $this->builder = DB::table($this->main_group->table_name . " AS " . $main_group);
     }
 
     public function setSearchData(array $data) {
@@ -87,7 +87,9 @@ class SearchBuilder
         }
 
         // HOOK: Before Run The Query Builder
-        $this->hook_obj->beforeBuildQuery($this->searchData);
+        if ($this->hook_obj instanceof BaseHook) {
+            $this->hook_obj->beforeBuildQuery($this->searchData);
+        }
 
         // get config data - joins
         $joiner = new SearchJoiner($this->main_group, $this->builder);
@@ -105,18 +107,22 @@ class SearchBuilder
         $conditioner = new SearchCondition($this->searchData, $this->builder);
 
         // HOOK: After Built Query Builder
-        $this->hook_obj->afterBuiltQuery($this->builder, $this->searchData);
+        if ($this->hook_obj instanceof BaseHook) {
+            $this->hook_obj->afterBuiltQuery($this->builder, $this->searchData);
+        }
 
         // query
         $result = $this->builder->get();
         $total_result = (new SearchCount($this->main_group, $this->builder))->getTotalRows();
 
         // HOOK: After Query Result
-        $this->hook_obj->afterQueryResult($result);
+        if ($this->hook_obj instanceof BaseHook) {
+            $this->hook_obj->afterQueryResult($result);
+        }
 
         // package up data
         return [
-            "draw" => intval($this->searchData),
+            "draw" => intval($this->searchData->draw ?? 0),
             "recordsTotal" => $total_result,
             "recordsFiltered" => $total_result,
             "data" => $result,

@@ -61,7 +61,7 @@ class InitTable extends Migration
             $table->increments('id');
             $table->unsignedInteger("group_id");
             $table->string('field_name');
-            $table->tinyInteger("type");
+            $table->tinyInteger("type"); // 0 int, 1 string, 2
 
             $table->text('meta_data')->nullable();
 

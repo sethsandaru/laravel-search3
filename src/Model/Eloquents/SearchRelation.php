@@ -21,7 +21,7 @@ use SethPhat\Search3\Constant\RelationConstant;
  * @property string $condition
  * @property string $FinalCondition
  * @property SearchGroup $BaseJoinTable
- * @property SearchGroup $JoiningTable
+ * @property SearchGroup $JoinedTable
  */
 class SearchRelation extends Model
 {
@@ -39,7 +39,7 @@ class SearchRelation extends Model
         return $this->belongsTo(SearchGroup::class, "base_group_id");
     }
 
-    public function JoiningTable() {
+    public function JoinedTable() {
         return $this->belongsTo(SearchGroup::class, "join_group_id");
     }
 }

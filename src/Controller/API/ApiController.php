@@ -21,7 +21,7 @@ class ApiController extends BaseController
         $main_group = $postData['main_group'];
         $server_hook = $postData['server_hook'] ?? null;
 
-        if (!empty($main_group)) {
+        if (empty($main_group)) {
             return $this->returnError('MAIN GROUP IS MISSING');
         }
 
@@ -33,7 +33,15 @@ class ApiController extends BaseController
             $result = $search3->getResult($postData);
             return $this->returnJson($result);
         } catch (\Exception $e) {
-            return $this->returnError('ERROR WHILE RETRIEVE DATA: ' . $e->getMessage());
+            var_dump($e);exit;
+            return $this->returnJson([
+                "draw" => 0,
+                "recordsTotal" => 0,
+                "recordsFiltered" => 0,
+                "data" => [],
+                'code' => 400,
+                'message' =>'ERROR WHILE RETRIEVE DATA: ' . $e->getMessage(),
+            ]);
         }
     }
 }

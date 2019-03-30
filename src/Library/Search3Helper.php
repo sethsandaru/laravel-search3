@@ -27,7 +27,7 @@ class Search3Helper
      */
     public static function assetCss() {
         $css = [
-            'vendor/search3/css/jquery.dataTables.min.css',
+//            'vendor/search3/css/jquery.dataTables.min.css',
             'vendor/search3/css/select.dataTables.min.css',
             'vendor/search3/css/select2.min.css',
             'vendor/search3/css/select2-bootstrap.min.css',

@@ -26,8 +26,9 @@ class SearchRelationRepository
         $base_join = $this->getJoin($main_group_id);
         foreach ($base_join as $joined_table) {
             $join[] = [
-                'table' => $joined_table->JoiningTable,
-                'type' => $joined_table->type
+                'table' => $joined_table->JoinedTable,
+                'type' => (int) $joined_table->type,
+                'condition' => $joined_table->condition
             ];
             $this->_childJoin($join, $joined_table->join_group_id);
         }
@@ -50,8 +51,9 @@ class SearchRelationRepository
         $next_level = $level + 1;
         foreach ($join_tables as $join_table) {
             $tables[] =  [
-                'table' => $join_table->JoiningTable,
-                'type' => $join_table->type
+                'table' => $join_table->JoinedTable,
+                'type' => (int) $join_table->type,
+                'condition' => $join_table->condition
             ];
 
             $this->_childJoin($tables, $join_table->join_group_id, $next_level);

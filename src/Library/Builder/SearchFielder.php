@@ -14,6 +14,8 @@ use SethPhat\Search3\Model\Eloquents\SearchGroup;
 
 class SearchFielder
 {
+    const FIELD_SEPARATE = "__";
+
     protected $tables;
 
     protected $fields;
@@ -40,16 +42,11 @@ class SearchFielder
         $fields = [];
 
         // apply main group first
-        $main_group_fields = $this->main_group->Fields;
-        foreach ($main_group_fields as $search_field) {
-            $fields[] = $this->main_group->name . "." . $search_field->field_name;
-        }
+        $this->_setField($fields, $this->main_group);
 
         // apply sub-group fields
         foreach ($this->tables as $table) {
-            foreach ($table['table']->Fields as $search_field) {
-                $fields[] = $table['table']->name . "." . $search_field->field_name;
-            }
+            $this->_setField($fields, $table['table']);
         }
 
         $this->fields = $fields;
@@ -64,5 +61,13 @@ class SearchFielder
 
         // select
         $this->builder->selectRaw($select_sql);
+    }
+
+    private function _setField(&$fields, SearchGroup $groupObj) {
+        foreach ($groupObj->Fields as $search_field) {
+            $field_name = $groupObj->name . "." . $search_field->field_name;
+            $field_name .= " AS `{$groupObj->name}" . static::FIELD_SEPARATE . "{$search_field->field_name}`";
+            $fields[] = $field_name;
+        }
     }
 }
