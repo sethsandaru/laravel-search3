@@ -8,4 +8,12 @@
 
 return [
     'title' => 'Search Group Relationship Management',
+
+    'column.base_table' => 'Base Group',
+    'column.join_table' => 'Joined Group',
+    'column.type_join' => 'Join Type',
+
+    'type.0' => 'Inner Join',
+    'type.1' => 'Left Join',
+    'type.2' => 'Right Join',
 ];

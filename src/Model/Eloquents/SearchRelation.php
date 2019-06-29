@@ -28,7 +28,7 @@ class SearchRelation extends Model
     protected $table = "search_relation";
     protected $primaryKey = null;
     public $incrementing = false;
-    public $timestamps = true;
+    public $timestamps = false;
     public static $snakeAttributes = false;
     protected $fillable = [
         'base_group_id', 'join_group_id', 'type', 'condition'

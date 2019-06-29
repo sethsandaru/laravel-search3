@@ -13,20 +13,9 @@ class InitTable extends Migration
      */
     public function up()
     {
-        Schema::create('search3', function (Blueprint $table) {
+        Schema::create('search_template', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('name');
-            $table->integer("version")->default(1);
-
-            $table->unsignedInteger("main_group_id");
-
-            $table->timestamps();
-            $table->softDeletes();
-        });
-
-        Schema::create('search3_template', function (Blueprint $table) {
-            $table->increments('id');
-            $table->unsignedInteger("search3_id")->index();
+            $table->unsignedInteger("search_group_id")->index();
             $table->integer("version");
 
             // form data
@@ -79,8 +68,7 @@ class InitTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('search3');
-        Schema::dropIfExists('search3_template');
+        Schema::dropIfExists('search_template');
         Schema::dropIfExists('search_group');
         Schema::dropIfExists('search_relation');
         Schema::dropIfExists('search_group_field');

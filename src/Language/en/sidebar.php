@@ -9,5 +9,5 @@
 return [
     'search_group' => 'Search Group',
     'search_relation' => 'Search Relation',
-    'search_config' => 'Search 3 Config',
+    'search_config' => 'Search Config',
 ];

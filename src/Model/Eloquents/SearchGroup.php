@@ -35,6 +35,11 @@ class SearchGroup extends Model
         return $this->hasMany(SearchGroupField::class, "group_id");
     }
 
+    public function Templates() {
+        return $this->hasMany(SearchTemplate::class, "search_group_id");
+    }
+
+
     public function getMetaDataObjectAttribute() {
         return json_decode($this->meta_data, true);
     }

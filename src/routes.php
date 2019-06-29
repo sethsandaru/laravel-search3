@@ -42,5 +42,6 @@ Route::prefix("$route_prefix/search_relation")->namespace("\SethPhat\Search3\Con
 
 Route::prefix("$route_prefix/search_config")->namespace("\SethPhat\Search3\Controller\SearchConfig")->group(function () {
     Route::get("/", "ConfigController@index")->name("searchConfigPage");
+    Route::get("/template/{search_group_id}", "ConfigController@config")->name("searchConfigTemplatePage");
 
 });

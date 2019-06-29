@@ -12,6 +12,7 @@ namespace SethPhat\Search3\Library\Builder;
 use Illuminate\Database\Query\Builder;
 use Illuminate\Support\Facades\DB;
 use SethPhat\Search3\Constant\RelationConstant;
+use SethPhat\Search3\Library\Exception\InvalidJoinConditionException;
 use SethPhat\Search3\Model\Eloquents\SearchGroup;
 use SethPhat\Search3\Model\Repositories\SearchRelationRepository;
 
@@ -68,9 +69,13 @@ class SearchJoiner
             // prepare the condition
             $conditionObj = json_decode($table['condition']);
             if (empty($conditionObj) || !is_array($conditionObj)) {
-                throw new \Exception("COULDN'T PROCESS THE JOIN OF {$table['table']->name} BECAUSE OF EMPTY CONDITION OR WRONG FORMAT");
+                throw new InvalidJoinConditionException("COULDN'T PROCESS THE JOIN OF {$table['table']->name} BECAUSE OF EMPTY CONDITION OR WRONG FORMAT");
             }
+
+            // function for joinning
             $join_condition_func = function($query) use ($conditionObj) {
+
+                // loop through all
                 foreach ($conditionObj as $conditional) {
                     if (isset($conditional->type) && $conditional->type == "OR") {
                         // ON ... OR ...

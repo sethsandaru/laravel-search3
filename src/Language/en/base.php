@@ -14,6 +14,7 @@ return [
     'keyword' => 'Keyword',
     'search' => 'Search',
     'cancel' => 'Cancel',
+    'none' => 'None',
 
     // mess
     'no_result' => 'No result found.',

@@ -16,36 +16,36 @@
     <table class="table table-bordered table-striped table-hover">
         <thead>
             <tr>
-                <th>@lang($prefix . "::group.field.name")</th>
-                <th>@lang($prefix . "::group.field.table_name")</th>
-                <th>@lang($prefix . "::group.field.last_update")</th>
+                <th>@lang($prefix . "::relation.column.base_table")</th>
+                <th>@lang($prefix . "::relation.column.join_table")</th>
+                <th>@lang($prefix . "::relation.column.type_join")</th>
                 <th width="5%"></th>
             </tr>
         </thead>
         <tbody>
-            @foreach($listGroup as $group)
+            @foreach($listRela as $relation)
             <tr>
                 <td>
-                    {{$group->name}}
+                    {{$relation->BaseJoinTable->name}}
                 </td>
                 <td>
-                    {{$group->table_name}}
+                    {{$relation->JoinedTable->name}}
                 </td>
                 <td>
-                    {{$group->updated_at}}
+                    @lang($prefix . '::relation.type.' . $relation->type)
                 </td>
                 <td>
-                    <a href="{{route('searchGroupEditPage', ['id' => $group->id])}}">
+                    <a href="#">
                         <i class="fa fa-edit"></i>
                     </a>
-                    <a href="javascript:void(0);" data-id="{{$group->id}}" class="btnDeleteGroup">
+                    <a href="javascript:void(0);" data-id="#" class="btnDeleteGroup">
                         <i class="fa fa-trash"></i>
                     </a>
                 </td>
             </tr>
             @endforeach
 
-            @if($listGroup->count() <= 0)
+            @if($listRela->count() <= 0)
                 <tr>
                     <td colspan="4">
                         @lang($prefix . "::base.no_result")
@@ -56,6 +56,6 @@
     </table>
 
     <div class="text-center">
-        {!! $listGroup->appends(request()->input())->links() !!}
+        {!! $listRela->appends(request()->input())->links() !!}
     </div>
 @endsection

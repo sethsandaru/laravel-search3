@@ -9,7 +9,7 @@
 namespace SethPhat\Search3\Model\Repositories;
 
 
-use SethPhat\Search3\Model\Eloquents\SearchGroup;
+use SethPhat\Search3\Constant\BaseConstant;
 use SethPhat\Search3\Model\Eloquents\SearchRelation;
 
 class SearchRelationRepository
@@ -65,8 +65,42 @@ class SearchRelationRepository
      * @return SearchRelation[]
      */
     public function getJoin($base_group_id) {
-        $query = SearchRelation::query();
+        $query = SearchRelation::query()->with(['BaseJoinTable', 'JoinedTable']);
         $query->where('base_group_id', $base_group_id);
+
+        return $query->get();
+    }
+
+    /**
+     * Get list data of search relation
+     * @param array $data
+     * @param bool $paginate
+     * @return SearchRelation[]
+     */
+    public function getList(array $data = [], $paginate = false) {
+        $query = SearchRelation::query();
+
+        if (isset($data['sort'])) {
+            $query->orderBy($data['sort']['by'], $data['sort']['type']);
+        }
+
+        if (isset($data['limit'])) {
+            $query->limit($data['limit']);
+        }
+
+        if (isset($data['keyword']) && !empty($data['keyword'])) {
+            $query->orWhereHas('BaseJoinTable', function ($base_table_query) use ($data) {
+                $base_table_query->where('name', 'LIKE', '%' . $data['keyword'] . '%');
+            });
+
+            $query->orWhereHas('JoinedTable', function ($joined_table_query) use ($data) {
+                $joined_table_query->where('name', 'LIKE', '%' . $data['keyword'] . '%');
+            });
+        }
+
+        if ($paginate) {
+            return $query->paginate(BaseConstant::LIMIT_RECORD);
+        }
 
         return $query->get();
     }
